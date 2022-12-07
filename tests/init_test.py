@@ -11,8 +11,6 @@ def application():
     app.config.update({
         'SQLALCHEMY_DATABASE_URI': Config.TEST_DATABASE
     })
-    # ctx = app.app_context()
-    # ctx.push()
     db.create_all()
     yield app
     db.drop_all()
