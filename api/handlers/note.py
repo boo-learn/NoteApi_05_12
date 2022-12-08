@@ -1,4 +1,4 @@
-from api import app, multi_auth, request
+from api import app, multi_auth, request, jsonify
 from api.models.note import NoteModel
 from api.models.user import UserModel
 from api.schemas.note import note_schema, notes_schema
@@ -24,7 +24,7 @@ def get_notes():
     # TODO: авторизованный пользователь получает только свои заметки и публичные заметки других пользователей
     user = multi_auth.current_user()
     notes = NoteModel.query.all()
-    return notes_schema.dump(notes), 200
+    return jsonify(notes_schema.dump(notes)), 200
 
 
 @app.route("/notes", methods=["POST"])

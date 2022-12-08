@@ -1,5 +1,5 @@
 from config import Config
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow

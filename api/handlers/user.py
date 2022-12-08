@@ -1,4 +1,4 @@
-from api import app, request, multi_auth
+from api import app, request, multi_auth, jsonify
 from api.models.user import UserModel
 from api.schemas.user import user_schema, users_schema
 from utility.helpers import get_object_or_404
@@ -15,7 +15,7 @@ def get_user_by_id(user_id):
 @app.route("/users")
 def get_users():
     users = UserModel.query.all()
-    return users_schema.dump(users), 200
+    return jsonify(users_schema.dump(users)), 200
 
 
 @app.route("/users", methods=["POST"])
