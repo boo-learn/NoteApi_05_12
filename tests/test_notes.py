@@ -1,4 +1,5 @@
 import pytest
+from base64 import b64encode
 from api.models.user import UserModel
 from api.models.note import NoteModel
 from tests.init_test import client, application, auth_headers
@@ -14,7 +15,11 @@ def user():
 
 @pytest.fixture()
 def note(user):
-    note_data = {"author_id": user.id, "text": "Quote for testuser"}
+    note_data = {
+        "author_id": user.id,
+        "text": "Quote for testuser",
+        "private": True
+    }
     note = NoteModel(**note_data)
     note.save()
     return note
@@ -35,11 +40,25 @@ def note_admin(user_admin):
     note.save()
     return note
 
+@pytest.fixture()
+def auth_headers_testuser(user):
+    user_data = {"username": "testuser", "password": "1234"}
+    headers = {
+        'Authorization': 'Basic ' + b64encode(
+            f"{user_data['username']}:{user_data['password']}".encode('ascii')).decode('utf-8')
+    }
+    return headers
 
-def test_note_get_by_id(client, note, auth_headers):
-    response = client.get('/notes/1', headers=auth_headers)
+
+def test_note_get_by_id(client, note, auth_headers_testuser):
+    response = client.get('/notes/1', headers=auth_headers_testuser)
     assert response.status_code == 200
     assert response.json["text"] == note.text
+
+
+def test_note_get_by_id_forbidden(client, note, auth_headers):
+    response = client.get('/notes/1', headers=auth_headers)
+    assert response.status_code == 403
 
 
 def test_note_not_found(client, note, auth_headers):

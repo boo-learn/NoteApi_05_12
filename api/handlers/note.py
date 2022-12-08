@@ -8,14 +8,12 @@ from utility.helpers import get_object_or_404
 @app.route("/notes/<int:note_id>", methods=["GET"])
 @multi_auth.login_required
 def get_note_by_id(note_id):
-    # TODO: авторизованный пользователь может получить только свою заметку или публичную заметку других пользователей
-    #  Попытка получить чужую приватную заметку, возвращает ответ с кодом 403
     user = multi_auth.current_user()
-    note = NoteModel.query.join(NoteModel.author).filter(UserModel.id==user.id).filter(NoteModel.id==note_id).first()
-    if note is None:
-        return "", 404
-    # note = get_object_or_404(NoteModel, note_id)
-    return note_schema.dump(note), 200
+    note = get_object_or_404(NoteModel, note_id)
+    notes = NoteModel.query.join(NoteModel.author).filter((UserModel.id == user.id) | (NoteModel.private == False))
+    if note in notes:
+        return note_schema.dump(note), 200
+    return "...", 403
 
 
 @app.route("/notes", methods=["GET"])
