@@ -8,8 +8,13 @@ from api.handlers import auth, note, user
 # Read --> GET
 # Update --> PUT
 # Delete --> DELETE
+
+# USERS
 docs.register(user.get_user_by_id)
 docs.register(user.get_users)
 docs.register(user.create_user)
+
+# NOTES
+docs.register(note.get_note_by_id)
 if __name__ == '__main__':
     app.run(debug=Config.DEBUG, port=Config.PORT)

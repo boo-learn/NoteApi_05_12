@@ -5,7 +5,7 @@ from utility.helpers import get_object_or_404
 from flask_apispec import doc, marshal_with, use_kwargs
 
 
-@app.route("/users/<int:user_id>")
+@app.route("/users/<int:user_id>", methods=["GET"])
 @doc(description='Api for notes.', tags=['Users'])
 @marshal_with(UserSchema, code=200)
 def get_user_by_id(user_id):
@@ -15,7 +15,7 @@ def get_user_by_id(user_id):
     return user, 200
 
 
-@app.route("/users")
+@app.route("/users", methods=["GET"])
 @doc(description='Api for notes.', tags=['Users'])
 @marshal_with(UserSchema(many=True), code=200)
 def get_users():

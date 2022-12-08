@@ -1,18 +1,25 @@
 from api import app, multi_auth, request, jsonify
 from api.models.note import NoteModel
 from api.models.user import UserModel
-from api.schemas.note import note_schema, notes_schema
+from api.schemas.note import note_schema, notes_schema, NoteSchema
 from utility.helpers import get_object_or_404
+from flask_apispec import doc, marshal_with, use_kwargs
 
 
 @app.route("/notes/<int:note_id>", methods=["GET"])
 @multi_auth.login_required
+@doc(summary="Get note by id", description='Get note by id for current auth User or other public note', tags=['Notes'])
+@marshal_with(NoteSchema, code=200)
+@doc(responses={"401": {"description": "Unauthorized"}})
+@doc(responses={"404": {"description": "Not found"}})
+@doc(responses={"403": {"description": "Forbidden"}})
+@doc(security=[{"basicAuth": []}])
 def get_note_by_id(note_id):
     user = multi_auth.current_user()
     note = get_object_or_404(NoteModel, note_id)
     notes = NoteModel.query.join(NoteModel.author).filter((UserModel.id == user.id) | (NoteModel.private == False))
     if note in notes:
-        return note_schema.dump(note), 200
+        return note, 200
     return "...", 403
 
 
