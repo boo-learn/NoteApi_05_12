@@ -10,7 +10,16 @@ from api.models.user import UserModel
 class UserSchema(ma.SQLAlchemySchema):
     class Meta:
         model = UserModel
-        fields = ('id', 'username', "is_staff")
+        fields = ('id', 'username')
+
+
+# Десериализация запроса(request)
+class UserRequestSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = UserModel
+
+    username = ma.Str()
+    password = ma.Str()
 
 
 user_schema = UserSchema()
