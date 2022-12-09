@@ -1,0 +1,78 @@
+{
+    "user_model": [
+        {
+            "id": 1,
+            "username": "admin",
+            "password_hash": "$6$rounds=656000$ZjNkaK5eWSzEQ2xq$a3C5KvjF973cETKUsn4/uWuxuP/2jYEH9Dx686GPcFXe0zjejRBKwVqDu6vIeK5bszwSZO5uJFY27QtU6C/Wm/",
+            "role": "admin"
+        },
+        {
+            "id": 2,
+            "username": "user1",
+            "password_hash": "$6$rounds=656000$l5MkBPJOfgXkEr8w$TNeWnBXga9wKJTCmoCQwm/ZKFyCH6OiVY/h6dORbnbmdCNoFUwTTif7Zrdc/XSEL5fOe.HTeA0tCmdGxKocuh1",
+            "role": "simple_user"
+        },
+        {
+            "id": 3,
+            "username": "new_user",
+            "password_hash": "$6$rounds=656000$w2C2nSNIUM7jma65$xZTZGR2Tno8kl7P0ZI9/ELtrzqe1iKODPj9W7Tt4IKClywirko4CEdcNdxKRK74wCQze9.J1F.kj5tzEaUSy10",
+            "role": "simple_user"
+        },
+        {
+            "id": 4,
+            "username": "CLI-user",
+            "password_hash": "...",
+            "role": "hmm"
+        }
+    ],
+    "note_model": [
+        {
+            "id": 1,
+            "author_id": 1,
+            "text": "Заметка админа 1",
+            "private": false
+        },
+        {
+            "id": 2,
+            "author_id": 1,
+            "text": "Заметка админа 2",
+            "private": true
+        },
+        {
+            "id": 3,
+            "author_id": 2,
+            "text": "Заметка user 1",
+            "private": true
+        },
+        {
+            "id": 4,
+            "author_id": 2,
+            "text": "Заметка user 2",
+            "private": true
+        },
+        {
+            "id": 5,
+            "author_id": 2,
+            "text": "Заметка user 3",
+            "private": true
+        },
+        {
+            "id": 6,
+            "author_id": 2,
+            "text": "Заметка user 3",
+            "private": true
+        },
+        {
+            "id": 7,
+            "author_id": 2,
+            "text": "Заметка user 3",
+            "private": false
+        },
+        {
+            "id": 8,
+            "author_id": 2,
+            "text": "Заметка user 3",
+            "private": false
+        }
+    ]
+}
