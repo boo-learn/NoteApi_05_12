@@ -8,12 +8,12 @@ class TagModel(db.Model):
     name = db.Column(db.String(255), unique=True, nullable=False)
 
     def save(self):
-        # try:
-        db.session.add(self)
-        db.session.commit()
-        # except IntegrityError as e:
-        #     db.session.rollback(e)
-        #     raise IntegrityError
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except IntegrityError as e:
+            db.session.rollback()
+            raise e
 
     def delete(self):
         db.session.delete(self)

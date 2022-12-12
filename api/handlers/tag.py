@@ -32,7 +32,6 @@ def create_tag(**kwargs):
     try:
         tag.save()
     except IntegrityError:
-        db.session.rollback()
         return "tag name must be unique", 400
     return tag, 201
 
