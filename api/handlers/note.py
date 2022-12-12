@@ -1,7 +1,7 @@
 from api import app, multi_auth, request, jsonify
 from api.models.note import NoteModel
 from api.models.user import UserModel
-from api.schemas.note import note_schema, notes_schema, NoteSchema
+from api.schemas.note import NoteSchema, NoteRequestSchema
 from utility.helpers import get_object_or_404
 from flask_apispec import doc, marshal_with, use_kwargs
 
@@ -25,21 +25,28 @@ def get_note_by_id(note_id):
 
 @app.route("/notes", methods=["GET"])
 @multi_auth.login_required
+@doc(summary="Get notes", description='Get notes for current auth User or other public notes', tags=['Notes'])
+@marshal_with(NoteSchema(many=True), code=200)
+@doc(responses={"401": {"description": "Unauthorized"}})
+@doc(security=[{"basicAuth": []}])
 def get_notes():
-    # TODO: авторизованный пользователь получает только свои заметки и публичные заметки других пользователей
     user = multi_auth.current_user()
-    notes = NoteModel.query.all()
-    return jsonify(notes_schema.dump(notes)), 200
+    notes = NoteModel.query.join(NoteModel.author).filter((UserModel.id==user.id) | (NoteModel.private==False))
+    return notes, 200
 
 
 @app.route("/notes", methods=["POST"])
 @multi_auth.login_required
-def create_note():
+@doc(summary="Create new note", description='Create new note for current auth User', tags=['Notes'])
+@marshal_with(NoteSchema, code=201)
+@use_kwargs(NoteRequestSchema, location='json')
+@doc(responses={"401": {"description": "Unauthorized"}})
+@doc(security=[{"basicAuth": []}])
+def create_note(**kwargs):
     user = multi_auth.current_user()
-    note_data = request.json
-    note = NoteModel(author_id=user.id, **note_data)
+    note = NoteModel(author_id=user.id, **kwargs)
     note.save()
-    return note_schema.dump(note), 201
+    return note, 201
 
 
 @app.route("/notes/<int:note_id>", methods=["PUT"])
