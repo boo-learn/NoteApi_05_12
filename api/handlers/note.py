@@ -1,9 +1,11 @@
-from api import app, multi_auth, request, jsonify
+from api import app, multi_auth, request, jsonify, db
 from api.models.note import NoteModel
 from api.models.user import UserModel
+from api.models.tag import TagModel
 from api.schemas.note import NoteSchema, NoteRequestSchema
 from utility.helpers import get_object_or_404
 from flask_apispec import doc, marshal_with, use_kwargs
+from webargs import fields
 
 
 @app.route("/notes/<int:note_id>", methods=["GET"])
@@ -31,7 +33,7 @@ def get_note_by_id(note_id):
 @doc(security=[{"basicAuth": []}])
 def get_notes():
     user = multi_auth.current_user()
-    notes = NoteModel.query.join(NoteModel.author).filter((UserModel.id==user.id) | (NoteModel.private==False))
+    notes = NoteModel.query.join(NoteModel.author).filter((UserModel.id == user.id) | (NoteModel.private == False))
     return notes, 200
 
 
@@ -40,6 +42,7 @@ def get_notes():
 @doc(summary="Create new note", description='Create new note for current auth User', tags=['Notes'])
 @marshal_with(NoteSchema, code=201)
 @use_kwargs(NoteRequestSchema, location='json')
+# @use_kwargs({"text": fields.Str(required=True), "private": fields.Boolean()})
 @doc(responses={"401": {"description": "Unauthorized"}})
 @doc(security=[{"basicAuth": []}])
 def create_note(**kwargs):
@@ -69,3 +72,18 @@ def delete_note(self, note_id):
     # TODO: Пользователь может удалять ТОЛЬКО свои заметки.
     #  Попытка удалить чужую заметку, возвращает ответ с кодом 403
     raise NotImplemented("Метод не реализован")
+
+
+@app.route("/notes/<int:note_id>/tags", methods=["PUT"])
+@doc(summary="Set tags to Note", tags=['Notes'])
+@use_kwargs({"tags_id": fields.List(fields.Int())}, location=('json'))
+@marshal_with(NoteSchema)
+def note_add_tags(note_id, **kwargs):
+    note = get_object_or_404(NoteModel, note_id)
+    tags_id = kwargs["tags_id"]
+    for tag_id in tags_id:
+        tag = get_object_or_404(TagModel, tag_id)
+        note.tags.append(tag)
+
+    db.session.commit()
+    return note, 200

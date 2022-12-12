@@ -18,6 +18,7 @@ docs.register(user.create_user)
 docs.register(note.get_note_by_id)
 docs.register(note.get_notes)
 docs.register(note.create_note)
+docs.register(note.note_add_tags)
 
 # TAGS
 docs.register(tag.get_tag_by_id)
