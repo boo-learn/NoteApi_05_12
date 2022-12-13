@@ -8,6 +8,18 @@
 1. Активировать миграции: flask db init
 1. Создать миграцию: flask db migrate -m "comment"
 1. Применить миграции: flask db upgrade
-
+      
 # Автотесты
 1. Запуск: pytest -v tests
+
+# Чек-лист проекта
+
+| [x]      | Auth                                     | Task     | Url          |
+|----------|------------------------------------------|----------|--------------|
+| **USER** |                                          |          |              |
+| [x]      | ![fa-crown](icons/lock-solid.svg) | Регистрация пользователя | POST: /users |
+| - [x]    | ![fa-crown](icons/lock-solid.svg) | Регистрация пользователя | POST: /users |
+| - [ ]    | ![fa-crown](icons/lock-solid.svg) | Регистрация пользователя | POST: /users |
+
+- [x] works
+- [ ] works too
