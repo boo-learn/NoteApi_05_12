@@ -1,6 +1,7 @@
 from api import app, docs
 from config import Config
 from api.handlers import auth, note, user, tag
+import commands
 
 # CRUD
 
