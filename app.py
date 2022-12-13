@@ -14,7 +14,7 @@ docs.register(user.get_user_by_id)
 docs.register(user.get_users)
 docs.register(user.create_user)
 
-# NOTES
+# NOTES!
 docs.register(note.get_note_by_id)
 docs.register(note.get_notes)
 docs.register(note.create_note)
