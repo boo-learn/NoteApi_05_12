@@ -53,6 +53,7 @@ def create_note(**kwargs):
 
 
 @app.route("/notes/<int:note_id>", methods=["PUT"])
+@marshal_with(NoteSchema, code=200)
 @multi_auth.login_required
 def edit_note(note_id):
     # TODO: Пользователь может редактировать ТОЛЬКО свои заметки.
@@ -63,7 +64,7 @@ def edit_note(note_id):
     note.text = note_data["text"]
     note.private = note_data.get("private") or note.private
     note.save()
-    return note_schema.dump(note), 200
+    return note, 200
 
 
 @app.route("/notes/<int:note_id>", methods=["DELETE"])
