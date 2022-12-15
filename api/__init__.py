@@ -7,7 +7,7 @@ from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth, MultiAuth
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from flask_apispec.extension import FlaskApiSpec
-
+from flask_babel import Babel
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -15,6 +15,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 ma = Marshmallow(app)
 docs = FlaskApiSpec(app)
+babel = Babel(app)
 
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth('Bearer')
@@ -41,3 +42,8 @@ def verify_token(token):
 @basic_auth.get_user_roles
 def get_user_roles(user):
     return user.get_roles()
+
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
