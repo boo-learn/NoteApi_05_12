@@ -1,4 +1,4 @@
-from api import app, multi_auth, request, jsonify, db
+from api import app, multi_auth, request, jsonify, db, abort
 from api.models.note import NoteModel
 from api.models.user import UserModel
 from api.models.tag import TagModel
@@ -19,6 +19,9 @@ from webargs import fields
 def get_note_by_id(note_id):
     user = multi_auth.current_user()
     note = get_object_or_404(NoteModel, note_id)
+    # Хорошее решение фильтрации не удаленных заметок: https://blog.miguelgrinberg.com/post/implementing-the-soft-delete-pattern-with-flask-and-sqlalchemy
+    if note.deleted:
+        abort(404, "Note not found")
     notes = NoteModel.query.join(NoteModel.author).filter((UserModel.id == user.id) | (NoteModel.private == False))
     if note in notes:
         return note, 200
@@ -33,7 +36,8 @@ def get_note_by_id(note_id):
 @doc(security=[{"basicAuth": []}])
 def get_notes():
     user = multi_auth.current_user()
-    notes = NoteModel.query.join(NoteModel.author).filter((UserModel.id == user.id) | (NoteModel.private == False))
+    notes = NoteModel.query.join(NoteModel.author).filter(NoteModel.deleted == False).filter(
+        (UserModel.id == user.id) | (NoteModel.private == False))
     return notes, 200
 
 
@@ -68,11 +72,15 @@ def edit_note(note_id):
 
 
 @app.route("/notes/<int:note_id>", methods=["DELETE"])
+@doc(summary="Delete note", tags=['Notes'])
 @multi_auth.login_required
-def delete_note(self, note_id):
+@doc(security=[{"basicAuth": []}])
+def delete_note(note_id):
     # TODO: Пользователь может удалять ТОЛЬКО свои заметки.
     #  Попытка удалить чужую заметку, возвращает ответ с кодом 403
-    raise NotImplemented("Метод не реализован")
+    note = get_object_or_404(NoteModel, note_id)
+    note.delete()
+    return '', 204
 
 
 @app.route("/notes/<int:note_id>/tags", methods=["PUT"])

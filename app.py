@@ -29,6 +29,7 @@ docs.register(note.get_note_by_id)
 docs.register(note.get_notes)
 docs.register(note.create_note)
 docs.register(note.note_add_tags)
+docs.register(note.delete_note)
 
 # TAGS
 docs.register(tag.get_tag_by_id)
