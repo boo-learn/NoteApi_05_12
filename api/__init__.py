@@ -4,8 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth, MultiAuth
-from apispec import APISpec
-from apispec.ext.marshmallow import MarshmallowPlugin
 from flask_apispec.extension import FlaskApiSpec
 from flask_babel import Babel
 

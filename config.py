@@ -31,3 +31,5 @@ class Config:
     )
     APISPEC_SWAGGER_URL = '/swagger'
     APISPEC_SWAGGER_UI_URL = '/swagger-ui'
+    UPLOAD_FOLDER_NAME = 'upload'
+    UPLOAD_FOLDER = BASE_DIR / UPLOAD_FOLDER_NAME
