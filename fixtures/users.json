@@ -1,0 +1,20 @@
+{
+  "user_model": [
+    {
+      "username": "SuperMan",
+      "password_hash": "$6$rounds=656000$Y0HzrECPH9.apNTc$auLKuB0WUJpZZA0voGp8g5HkYOyV.pRpR1h7iK/EaIfXuKtXruJWSdN5HUXI.HEKgvmNERKA3ni/R8iZUZEv/0"
+    },
+    {
+      "username": "Megaman",
+      "password_hash": "$6$rounds=656000$Y0HzrECPH9.apNTc$auLKuB0WUJpZZA0voGp8g5HkYOyV.pRpR1h7iK/EaIfXuKtXruJWSdN5HUXI.HEKgvmNERKA3ni/R8iZUZEv/0"
+    },
+    {
+      "username": "spiderman",
+      "password_hash": "$6$rounds=656000$Y0HzrECPH9.apNTc$auLKuB0WUJpZZA0voGp8g5HkYOyV.pRpR1h7iK/EaIfXuKtXruJWSdN5HUXI.HEKgvmNERKA3ni/R8iZUZEv/0"
+    },
+    {
+      "username": "NewUser",
+      "password_hash": "$6$rounds=656000$Y0HzrECPH9.apNTc$auLKuB0WUJpZZA0voGp8g5HkYOyV.pRpR1h7iK/EaIfXuKtXruJWSdN5HUXI.HEKgvmNERKA3ni/R8iZUZEv/0"
+    }
+  ]
+}
