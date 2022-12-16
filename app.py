@@ -1,7 +1,16 @@
-from api import app, docs
+from api import app, docs, db
 from config import Config
+from api.models.note import NoteModel
+from api.models.user import UserModel
+from api.models.tag import TagModel
 from api.handlers import auth, note, user, tag, file
 import commands
+
+
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'NoteModel': NoteModel, 'UserModel': UserModel, 'TagModel': TagModel}
+
 
 # CRUD
 

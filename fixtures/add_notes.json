@@ -1,12 +1,12 @@
 {
   "note_model": [
     {
-      "author_id": 4,
+      "author_id": 3,
       "text": "Заметка из фикстуры-1",
       "private": false
     },
     {
-      "author_id": 4,
+      "author_id": 3,
       "text": "Заметка из фикстуры-2",
       "private": true
     }

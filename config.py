@@ -10,6 +10,7 @@ class Config:
     TEST_DATABASE = 'sqlite:///:memory:'
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Зачем эта настройка: https://flask-sqlalchemy-russian.readthedocs.io/ru/latest/config.html#id2
     DEBUG = True
+    SQLALCHEMY_ECHO = False
     PORT = 5000
     LANGUAGES = ['en', 'ru']
     SECRET_KEY = "My secret key =)"
