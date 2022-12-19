@@ -96,3 +96,15 @@ def note_add_tags(note_id, **kwargs):
 
     db.session.commit()
     return note, 200
+
+
+@app.route('/notes/<int:note_id>/importance', methods=["PUT"])
+@marshal_with(NoteSchema, 200)
+@doc(summary="Change importance", tags=['Notes'])
+def change_importance(note_id):
+    note = get_object_or_404(NoteModel, note_id)
+    note.importance %= 3
+    note.importance += 1
+    note.save()
+
+    return note, 200

@@ -17,6 +17,7 @@ class NoteModel(db.Model):
     private = db.Column(db.Boolean(), default=True, nullable=False)
     tags = db.relationship(TagModel, secondary=tags, lazy='subquery', backref=db.backref('notes', lazy=True))
     deleted = db.Column(db.Boolean(), server_default=expression.false(), default=False, nullable=False)
+    importance = db.Column(db.Integer, server_default="1", default=1, nullable=False)
 
     def save(self):
         db.session.add(self)
